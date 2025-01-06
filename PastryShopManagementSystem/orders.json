@@ -1,0 +1,1 @@
+[{"pastries":[{"name":"Brownie","type":"sweet","preparationStatus":"READY"},{"name":"Cheesecake","type":"sweet","preparationStatus":"IN_PROGRESS"}],"preparationStatus":"NOT_STARTED"},{"pastries":[{"name":"Focaccia","type":"savoury","preparationStatus":"IN_PROGRESS"},{"name":"Cheesecake","type":"sweet","preparationStatus":"NOT_STARTED"}],"preparationStatus":"NOT_STARTED"}]

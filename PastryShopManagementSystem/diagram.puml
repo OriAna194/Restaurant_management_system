@@ -1,0 +1,121 @@
+@startuml
+
+package "org.example" {
+    class Main {
+        - static Scanner scanner
+        - static ChefActions chef
+        - static List<Order> orders
+        - static String PASTRIES_FILE
+        - static String INGREDIENTS_FILE
+        - static String ORDERS_FILE
+        + main(args: String[]): void
+        - createNewOrder(): void
+        - addPastryToOrder(): void
+        - updateIndividualPastryStatus(): void
+        - viewAllOrdersStatus(): void
+        - viewAndSelectRecipe(): void
+        - loadData(): void
+        - saveData(): void
+    }
+
+    interface ChefActions {
+        + createRecipe(scanner: Scanner): Recipe
+        + getRecipes(): List<Recipe>
+        + getIngredients(): List<Ingredient>
+    }
+
+    class PastryChef {
+        - String name
+        - List<Recipe> recipes
+        - List<Ingredient> ingredients
+        + createRecipe(scanner: Scanner): Recipe
+        + addRecipe(recipe: Recipe): void
+        + getRecipes(): List<Recipe>
+        + setRecipes(recipes: List<Recipe>): void
+        + getIngredients(): List<Ingredient>
+        + setIngredients(ingredients: List<Ingredient>): void
+    }
+
+    class Recipe {
+        - Pastry pastry
+        - List<Ingredient> ingredients
+        - String instructions
+        + displayRecipe(): void
+        + scaleRecipe(multiplier: double): void
+        + getPastry(): Pastry
+        + getIngredients(): List<Ingredient>
+        + getInstructions(): String
+    }
+
+    class Pastry {
+        - String name
+        - String type
+        - PreparationStatusEnum preparationStatus
+        + getName(): String
+        + getType(): String
+        + getPreparationStatus(): PreparationStatusEnum
+        + updatePreparationStatus(status: PreparationStatusEnum): void
+        + compareTo(other: Pastry): int
+        + sortPastriesByName(pastries: List<Pastry>): void
+    }
+
+    class Order {
+        - List<Pastry> pastries
+        - PreparationStatusEnum preparationStatus
+        + addPastry(pastry: Pastry): void
+        + getPreparationStatus(): PreparationStatusEnum
+        + updatePreparationStatus(status: PreparationStatusEnum): void
+        + checkOrderStatus(): void
+        + getPastries(): List<Pastry>
+        + updatePastryStatus(pastryName: String, status: PreparationStatusEnum): void
+    }
+
+    class Ingredient {
+        - String name
+        - double quantity
+        - String unit
+        + getName(): String
+        + getQuantity(): double
+        + getUnit(): String
+        + scale(multiplier: double): void
+        + compareTo(other: Ingredient): int
+        + groupIngredientsByUnit(ingredients: List<Ingredient>): Map<String, List<Ingredient>>
+        + sortIngredientsByQuantity(ingredients: List<Ingredient>): void
+    }
+
+    enum PreparationStatusEnum {
+        NOT_STARTED
+        IN_PROGRESS
+        READY
+        COMPLETED
+    }
+
+    interface PreparationStatus {
+        + getPreparationStatus(): PreparationStatusEnum
+        + updatePreparationStatus(status: PreparationStatusEnum): void
+    }
+
+    class DuplicateEntryException {
+        - String message
+        + DuplicateEntryException(message: String)
+    }
+
+    class PastryNotFoundException {
+        - String message
+        + PastryNotFoundException(message: String)
+    }
+
+    Main --> ChefActions
+    ChefActions <|-- PastryChef
+    PastryChef --> Recipe
+    Recipe --> Pastry
+    Recipe --> Ingredient
+    Order --> Pastry
+    Ingredient --> Order
+    Ingredient --> Recipe
+    Pastry --> PreparationStatus
+    Order --> PreparationStatus
+    Main --> Order
+}
+
+@enduml
